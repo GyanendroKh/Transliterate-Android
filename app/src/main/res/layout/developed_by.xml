@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal"
+  android:padding="5dp">
+  
+  <androidx.appcompat.widget.AppCompatTextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/amarante"
+    android:text="@string/developed_by_1"
+    android:textSize="@dimen/developed_by_font_size" />
+  
+  <androidx.appcompat.widget.AppCompatImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    app:srcCompat="@drawable/ic_favorite" />
+  
+  <androidx.appcompat.widget.AppCompatTextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/amarante"
+    android:text="@string/developed_by_2"
+    android:textSize="@dimen/developed_by_font_size" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
