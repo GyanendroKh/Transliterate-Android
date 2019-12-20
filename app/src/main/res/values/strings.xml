@@ -1,6 +1,12 @@
 <resources>
   <string name="app_name">Transliterate</string>
   <string name="app_name_full">Transliterate - Meitei Mayek</string>
+  
+  <string name="title_activity_main">MainActivity</string>
+  
+  <string name="menu_home">Home</string>
+  
   <string name="developed_by_1">Developed with</string>
   <string name="developed_by_2">by Gyanendro Kh</string>
+  <string name="nav_header_desc">Navigation header</string>
 </resources>
