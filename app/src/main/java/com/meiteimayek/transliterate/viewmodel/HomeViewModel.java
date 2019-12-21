@@ -32,4 +32,10 @@ public class HomeViewModel extends AndroidViewModel {
   public void setMode(boolean mMode) {
     this.mMode = mMode;
   }
+  
+  @Override
+  protected void onCleared() {
+    super.onCleared();
+    mRepo.close();
+  }
 }
