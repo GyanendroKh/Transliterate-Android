@@ -9,4 +9,8 @@
   <string name="developed_by_1">Developed with</string>
   <string name="developed_by_2">by Gyanendro Kh</string>
   <string name="nav_header_desc">Navigation header</string>
+  <string name="type_here">Type Here…</string>
+  <string name="lang_eng">English</string>
+  <string name="lang_mm">Meitei Mayek</string>
+  <string name="transliteration">Transliteration…</string>
 </resources>
