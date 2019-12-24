@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
   private HomeViewModel mViewModel;
   private ClipboardManager mClipboard;
   private ReplaySubject<Boolean> mModeSubject;
-  private String TAG = "DebugLog";
+  private final String TAG = "DebugLog";
   
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle state) {
     View root = inflater.inflate(R.layout.fragment_home, container, false);

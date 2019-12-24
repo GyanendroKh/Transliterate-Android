@@ -3,7 +3,10 @@ package com.meiteimayek.transliterate;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.meiteimayek.transliterate.repository.HomeRepository;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,12 +32,25 @@ public class SplashActivity extends AppCompatActivity {
     super.onStart();
     mDisposable.add(Observable.just(true)
       .subscribeOn(Schedulers.newThread())
-      .delay(800, TimeUnit.MILLISECONDS)
+      .delay(300, TimeUnit.MILLISECONDS)
       .observeOn(AndroidSchedulers.mainThread())
-      .doOnComplete(() -> {
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        finish();
-      }).subscribe());
+      .subscribe(
+        b -> HomeRepository.getInstance(getApplication()),
+        e -> {
+          e.printStackTrace();
+          new AlertDialog.Builder(this)
+            .setTitle(getString(R.string.error_title))
+            .setMessage(getString(R.string.error_message))
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.exit), (d, w) -> finish())
+            .create()
+            .show();
+        },
+        () -> {
+          startActivity(new Intent(this, MainActivity.class));
+          finish();
+        }
+      ));
   }
   
   @Override

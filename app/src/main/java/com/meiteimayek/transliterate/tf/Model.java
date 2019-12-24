@@ -1,14 +1,14 @@
 package com.meiteimayek.transliterate.tf;
 
-import android.app.Application;
 import android.util.ArrayMap;
 import android.util.Log;
 
 import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.gpu.GpuDelegate;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.MappedByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,6 @@ import java.util.Map;
 import io.reactivex.Observable;
 
 import static com.meiteimayek.transliterate.tf.Utils.argmax;
-import static com.meiteimayek.transliterate.tf.Utils.loadModelFile;
 
 @SuppressWarnings("ConstantConditions")
 public class Model {
@@ -25,16 +24,15 @@ public class Model {
   
   private static Model mSelf = null;
   
-  private int mUnits;
-  private int mMaxLen;
-  private HashMap<String, Integer> mWordIndex;
-  private String[] mIndexWord;
-  private int mVocabSize;
+  private final int mUnits;
+  private final int mMaxLen;
+  private final HashMap<String, Integer> mWordIndex;
+  private final String[] mIndexWord;
+  private final int mVocabSize;
+  private final Encoder mEncoder;
+  private final Decoder mDecoder;
   
-  private Encoder mEncoder;
-  private Decoder mDecoder;
-  
-  private Model(Application app, Config config) throws IOException {
+  private Model(Config config) {
     mUnits = config.getUnits();
     mMaxLen = config.getMaxLength();
     mWordIndex = config.getWordIndex();
@@ -42,15 +40,16 @@ public class Model {
     mVocabSize = config.getVocabSize();
     
     Interpreter.Options options = new Interpreter.Options();
+    options.addDelegate(new GpuDelegate());
     
-    mEncoder = new Encoder(app, config.getEncoder(), options);
-    mDecoder = new Decoder(app, config.getDecoder(), options);
+    mEncoder = new Encoder(config.getEncoder(), options);
+    mDecoder = new Decoder(config.getDecoder(), options);
   }
   
-  public static Model getInstance(Application app, Config config) throws IOException {
+  public static Model getInstance(Config config) {
     if(mSelf == null) {
       Log.d(TAG, "getInstance: Creating an instance of Model.");
-      mSelf = new Model(app, config);
+      mSelf = new Model(config);
     }
     return mSelf;
   }
@@ -76,12 +75,13 @@ public class Model {
   }
   
   public Observable<String> trans(String word, boolean mode) {
+    long start = System.currentTimeMillis();
+    
     return Observable.just(word)
       .flatMapIterable(w -> Arrays.asList(w.split("( )+")))
       .map(w -> encodeSentence(w.toLowerCase(), (mode ? "mm" : "en")))
       .map(input -> {
         Log.d(TAG, "trans: Input : " + Arrays.toString(input));
-        long start = System.currentTimeMillis();
         
         Map<Integer, Object> m = mEncoder.infer(input);
         float[][][] encOut = (float[][][]) m.get(0);
@@ -115,30 +115,31 @@ public class Model {
           result.append(mIndexWord[predictedId]);
           inp = predictedId;
         }
-        
         Log.d(TAG, "trans: Output : " + result.toString());
-        Log.d(TAG, String.format("trans: Took : %sms", (System.currentTimeMillis() - start)));
+        
         return result.toString();
       }).reduce("", (seed, w) -> seed + w + " ")
       .map(String::trim)
+      .doOnEvent((s, t) -> Log.d(TAG,
+        String.format("trans: Took : %sms", (System.currentTimeMillis() - start))))
       .toObservable();
   }
   
   public void close() {
+    Log.d(TAG, "close: Closing...");
     mEncoder.close();
     mDecoder.close();
   }
   
   private class Encoder {
-    private Interpreter mInterpreter;
-    private ByteBuffer mInitialHiddenState;
+    private final Interpreter mInterpreter;
+    private final ByteBuffer mInitialHiddenState;
     
-    private float[][][] mOutput;
-    private float[][] mHidden;
+    private final float[][][] mOutput;
+    private final float[][] mHidden;
     
-    Encoder(Application app, String fileName, Interpreter.Options options) throws IOException {
-      mInterpreter = new Interpreter(loadModelFile(app, fileName), options);
-      
+    Encoder(MappedByteBuffer model, Interpreter.Options options) {
+      mInterpreter = new Interpreter(model, options);
       mInitialHiddenState = ByteBuffer.allocateDirect(4 * mUnits);
       mInitialHiddenState.order(ByteOrder.nativeOrder());
       
@@ -174,14 +175,12 @@ public class Model {
   }
   
   private class Decoder {
+    private final Interpreter mInterpreter;
+    private final float[][] mResult;
+    private final float[][] mHiddenState;
     
-    private Interpreter mInterpreter;
-    private float[][] mResult;
-    private float[][] mHiddenState;
-    
-    Decoder(Application app, String fileName, Interpreter.Options options) throws IOException {
-      mInterpreter = new Interpreter(loadModelFile(app, fileName), options);
-      
+    Decoder(MappedByteBuffer model, Interpreter.Options options) {
+      mInterpreter = new Interpreter(model, options);
       mResult = new float[1][mVocabSize];
       mHiddenState = new float[1][mUnits];
     }
@@ -210,7 +209,5 @@ public class Model {
     void close() {
       mInterpreter.close();
     }
-    
   }
-  
 }

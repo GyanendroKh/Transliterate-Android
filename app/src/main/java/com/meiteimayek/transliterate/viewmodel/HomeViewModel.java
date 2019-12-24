@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.meiteimayek.transliterate.repository.HomeRepository;
 
+import java.io.IOException;
+
 import io.reactivex.Observable;
 
 public class HomeViewModel extends AndroidViewModel {
@@ -14,11 +16,11 @@ public class HomeViewModel extends AndroidViewModel {
   private boolean mMode;
   private HomeRepository mRepo;
   
-  public HomeViewModel(@NonNull Application application) {
-    super(application);
+  public HomeViewModel(@NonNull Application app) throws IOException {
+    super(app);
     
     mMode = true;
-    mRepo = HomeRepository.getInstance(application);
+    mRepo = HomeRepository.getInstance(app);
   }
   
   public Observable<String> getTrans(String source) {

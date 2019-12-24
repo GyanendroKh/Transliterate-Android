@@ -1,11 +1,16 @@
 package com.meiteimayek.transliterate.tf;
 
+import java.nio.MappedByteBuffer;
 import java.util.HashMap;
 
 public interface Config {
-  String getEncoder();
+  String ENCODER = "encoder.tflite";
+  String DECODER = "decoder.tflite";
+  String DATA = "data.txt";
   
-  String getDecoder();
+  MappedByteBuffer getEncoder();
+  
+  MappedByteBuffer getDecoder();
   
   int getUnits();
   

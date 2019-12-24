@@ -3,11 +3,11 @@ package com.meiteimayek.transliterate.repository;
 import android.app.Application;
 import android.util.Log;
 
-import com.meiteimayek.transliterate.R;
 import com.meiteimayek.transliterate.tf.Config;
 import com.meiteimayek.transliterate.tf.Model;
+import com.meiteimayek.transliterate.tf.Utils;
 
-import java.util.HashMap;
+import java.io.IOException;
 
 import io.reactivex.Observable;
 
@@ -17,61 +17,15 @@ public class HomeRepository {
   private static HomeRepository mSelf = null;
   private Model mModel;
   
-  private HomeRepository(Application app) {
-    Config config = new Config() {
-      @Override
-      public String getEncoder() {
-        return "encoder.tflite";
-      }
-      
-      @Override
-      public String getDecoder() {
-        return "decoder.tflite";
-      }
-      
-      @Override
-      public int getUnits() {
-        return 1024;
-      }
-      
-      @Override
-      public int getMaxLength() {
-        return 24;
-      }
-      
-      @Override
-      public int getVocabSize() {
-        return getIndexWord().length;
-      }
-      
-      @Override
-      public HashMap<String, Integer> getWordIndex() {
-        String[] words = getIndexWord();
-        
-        int i = 0;
-        HashMap<String, Integer> map = new HashMap<>();
-        
-        for(String w : words) map.put(w, i++);
-        
-        return map;
-      }
-      
-      @Override
-      public String[] getIndexWord() {
-        return app.getString(R.string.mapping).split(",");
-      }
-    };
+  private HomeRepository(Application app) throws IOException {
+    Config config = Utils.getConfig(app);
     
-    try {
-      mModel = Model.getInstance(app, config);
-    }catch(Exception e) {
-      e.printStackTrace();
-    }
+    mModel = Model.getInstance(config);
   }
   
-  public static HomeRepository getInstance(Application application) {
+  public static HomeRepository getInstance(Application application) throws IOException {
     if(mSelf == null) {
-      Log.d(TAG, "getInstance: Creating a new instance...");
+      Log.d(TAG, "getInstance: Creating an instance of Repo.");
       mSelf = new HomeRepository(application);
     }
     
@@ -85,5 +39,4 @@ public class HomeRepository {
   public void close() {
     mModel.close();
   }
-  
 }
