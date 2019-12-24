@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,11 +19,16 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.meiteimayek.transliterate.R;
 import com.meiteimayek.transliterate.viewmodel.HomeViewModel;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -57,11 +63,16 @@ public class HomeFragment extends Fragment {
   ProgressBar mProgress;
   @BindView(R.id.trans_copy)
   AppCompatImageButton mCopy;
+  @BindView(R.id.ad_view)
+  AdView mAd;
   
   private CompositeDisposable mDisposable;
   private HomeViewModel mViewModel;
   private ClipboardManager mClipboard;
   private ReplaySubject<Boolean> mModeSubject;
+  private InterstitialAd mInterAds;
+  private Random mRandom;
+  private int mTimes = 0;
   private final String TAG = "DebugLog";
   
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -72,6 +83,8 @@ public class HomeFragment extends Fragment {
     mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
     mClipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
     mModeSubject = ReplaySubject.create();
+    mInterAds = new InterstitialAd(getActivity());
+    mRandom = new Random(System.currentTimeMillis());
     
     initView();
     
@@ -88,11 +101,22 @@ public class HomeFragment extends Fragment {
       Toast.makeText(HomeFragment.this.getActivity(),
         "Copied: " + transliterated, Toast.LENGTH_SHORT).show();
     });
+    mInterAds.setAdUnitId(getString(R.string.ad_inter));
+    mInterAds.setAdListener(new AdListener() {
+      @Override
+      public void onAdClosed() {
+        super.onAdClosed();
+        mInterAds.loadAd(new AdRequest.Builder().build());
+        mTimes = 0;
+      }
+    });
   }
   
   @Override
   public void onStart() {
     super.onStart();
+    mInterAds.loadAd(new AdRequest.Builder().build());
+    mAd.loadAd(new AdRequest.Builder().build());
     
     mModeSubject.onNext(mViewModel.getMode());
     
@@ -136,13 +160,28 @@ public class HomeFragment extends Fragment {
       .flatMap(s -> mViewModel.getTrans(s))
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe(s -> {
+        mTimes++;
         mTargetText.setText(s);
         mProgress.setVisibility(View.INVISIBLE);
+        if(canShowAds()) {
+          Log.d(TAG, "onStart: Showing Inter.");
+          new Handler().postDelayed(() -> mInterAds.show(), 2000);
+        }
       }, err -> {
         Log.e(TAG, "error: " + err.getLocalizedMessage());
         err.printStackTrace();
         mProgress.setVisibility(View.INVISIBLE);
       }));
+  }
+  
+  private boolean canShowAds() {
+    return (mTimes > 2) && (mRandom.nextInt(9) > 5);
+  }
+  
+  @Override
+  public void onResume() {
+    super.onResume();
+    if(canShowAds()) mInterAds.show();
   }
   
   @Override
