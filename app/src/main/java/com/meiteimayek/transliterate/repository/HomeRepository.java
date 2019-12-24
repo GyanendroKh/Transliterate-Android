@@ -23,12 +23,14 @@ public class HomeRepository {
     mModel = Model.getInstance(config);
   }
   
-  public static HomeRepository getInstance(Application application) throws IOException {
+  public static void intialize(Application application) throws IOException {
     if(mSelf == null) {
-      Log.d(TAG, "getInstance: Creating an instance of Repo.");
+      Log.d(TAG, "intialize: Creating an instance of Repo.");
       mSelf = new HomeRepository(application);
     }
-    
+  }
+  
+  public static HomeRepository getInstance() {
     return mSelf;
   }
   

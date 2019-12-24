@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -75,12 +76,17 @@ public class HomeFragment extends Fragment {
   private int mTimes = 0;
   private final String TAG = "DebugLog";
   
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+  }
+  
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle state) {
     View root = inflater.inflate(R.layout.fragment_home, container, false);
     ButterKnife.bind(this, root);
     
     mDisposable = new CompositeDisposable();
-    mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
     mClipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
     mModeSubject = ReplaySubject.create();
     mInterAds = new InterstitialAd(getActivity());
@@ -161,6 +167,7 @@ public class HomeFragment extends Fragment {
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe(s -> {
         mTimes++;
+        mViewModel.setLastString(mSourceText.getEditableText().toString());
         mTargetText.setText(s);
         mProgress.setVisibility(View.INVISIBLE);
         if(canShowAds()) {
@@ -182,6 +189,7 @@ public class HomeFragment extends Fragment {
   public void onResume() {
     super.onResume();
     if(canShowAds()) mInterAds.show();
+    mSourceText.setText(mViewModel.getLastString());
   }
   
   @Override

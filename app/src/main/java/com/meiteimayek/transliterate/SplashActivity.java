@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
       .delay(300, TimeUnit.MILLISECONDS)
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe(
-        b -> HomeRepository.getInstance(getApplication()),
+        b -> HomeRepository.intialize(getApplication()),
         e -> {
           e.printStackTrace();
           new AlertDialog.Builder(this)

@@ -1,26 +1,26 @@
 package com.meiteimayek.transliterate.viewmodel;
 
-import android.app.Application;
+import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.meiteimayek.transliterate.repository.HomeRepository;
 
-import java.io.IOException;
-
 import io.reactivex.Observable;
 
-public class HomeViewModel extends AndroidViewModel {
+public class HomeViewModel extends ViewModel {
+  
+  private static final String TAG = "DebugLog";
   
   private boolean mMode;
   private HomeRepository mRepo;
+  private String mLastString;
   
-  public HomeViewModel(@NonNull Application app) throws IOException {
-    super(app);
-    
+  public HomeViewModel() {
     mMode = true;
-    mRepo = HomeRepository.getInstance(app);
+    mRepo = HomeRepository.getInstance();
+    mLastString = "";
+    Log.d(TAG, "HomeViewModel: Creating ViewModel");
   }
   
   public Observable<String> getTrans(String source) {
@@ -33,6 +33,14 @@ public class HomeViewModel extends AndroidViewModel {
   
   public void setMode(boolean mMode) {
     this.mMode = mMode;
+  }
+  
+  public String getLastString() {
+    return mLastString;
+  }
+  
+  public void setLastString(String s) {
+    mLastString = s;
   }
   
   @Override
