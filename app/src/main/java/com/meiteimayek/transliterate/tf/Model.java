@@ -32,6 +32,8 @@ public class Model {
   private final Encoder mEncoder;
   private final Decoder mDecoder;
   
+  private HashMap<String, String> mCache;
+  
   private Model(Config config) {
     mUnits = config.getUnits();
     mMaxLen = config.getMaxLength();
@@ -44,6 +46,7 @@ public class Model {
     
     mEncoder = new Encoder(config.getEncoder(), options);
     mDecoder = new Decoder(config.getDecoder(), options);
+    mCache = new HashMap<>();
   }
   
   public static Model getInstance(Config config) {
@@ -82,6 +85,13 @@ public class Model {
       .map(w -> encodeSentence(w.toLowerCase(), (mode ? "mm" : "en")))
       .map(input -> {
         Log.d(TAG, "trans: Input : " + Arrays.toString(input));
+        String key = Arrays.toString(input);
+        String cache = mCache.get(key);
+        
+        if(cache != null) {
+          Log.d(TAG, "trans: Pulling from cache.");
+          return mCache.get(key);
+        }
         
         Map<Integer, Object> m = mEncoder.infer(input);
         float[][][] encOut = (float[][][]) m.get(0);
@@ -115,9 +125,13 @@ public class Model {
           result.append(mIndexWord[predictedId]);
           inp = predictedId;
         }
-        Log.d(TAG, "trans: Output : " + result.toString());
         
-        return result.toString();
+        String value = result.toString();
+        mCache.put(key, value);
+        
+        Log.d(TAG, "trans: Output : " + value);
+        
+        return value;
       }).reduce("", (seed, w) -> seed + w + " ")
       .map(String::trim)
       .doOnEvent((s, t) -> Log.d(TAG,
