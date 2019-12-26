@@ -1,25 +1,25 @@
 package com.meiteimayek.transliterate;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.meiteimayek.transliterate.repository.HomeRepository;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.meiteimayek.transliterate.Utils.TAG;
+import static com.meiteimayek.transliterate.Utils.checkVersion;
+import static com.meiteimayek.transliterate.Utils.openStorePage;
+
 public class SplashActivity extends AppCompatActivity {
   
-  private static final String TAG = "DebugLog";
   private CompositeDisposable mDisposable;
   private FirebaseFirestore mFirestore;
   
@@ -32,58 +32,31 @@ public class SplashActivity extends AppCompatActivity {
     mFirestore = FirebaseFirestore.getInstance();
   }
   
-  private Observable<Boolean> checkVersion() {
-    return Observable.just(
-      mFirestore.collection("android")
-        .document("app")
-        .get()
-    ).flatMap(t -> Observable.create(emitter -> t.addOnCompleteListener(task -> {
-      if(task.isSuccessful()) {
-        DocumentSnapshot result = task.getResult();
-        if(result != null) {
-          long version = (long) result.get("version");
-          Log.d(TAG, "checkVersion: Local Version - " + BuildConfig.VERSION_CODE);
-          Log.d(TAG, "checkVersion: Remote Version - " + version);
-          if(((long) BuildConfig.VERSION_CODE) < version) {
-            emitter.onNext(true);
-            emitter.onComplete();
-            return;
-          }
-        }
-      }
-      Log.w(TAG, "checkVersion: Error getting documents.", task.getException());
-      emitter.onNext(false);
-      emitter.onComplete();
-    })));
+  private void openAndFinish() {
+    startActivity(new Intent(this, MainActivity.class));
+    finish();
   }
   
   @Override
   protected void onStart() {
     super.onStart();
-    mDisposable.add(checkVersion()
+    mDisposable.add(checkVersion(mFirestore)
       .subscribeOn(Schedulers.newThread())
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe(
         b -> {
           Log.d(TAG, "onStart: Update - " + b);
-          if(b) {
+          if(!b) {
             HomeRepository.intialize(getApplication());
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            openAndFinish();
           }else {
             new AlertDialog.Builder(this)
               .setTitle(getString(R.string.update_title))
               .setMessage(getString(R.string.update_text))
               .setCancelable(false)
-              .setPositiveButton(getString(R.string.update), (d, w) -> {
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                  Uri.parse(getString(R.string.play_store_detail) + BuildConfig.APPLICATION_ID));
-                startActivity(Intent.createChooser(intent, "Open with..."));
-              })
-              .setNegativeButton(getString(R.string.later), (d, w) -> {
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-              }).create()
+              .setPositiveButton(getString(R.string.update), (d, w) -> openStorePage(this))
+              .setNegativeButton(getString(R.string.later), (d, w) -> openAndFinish())
+              .create()
               .show();
           }
         },

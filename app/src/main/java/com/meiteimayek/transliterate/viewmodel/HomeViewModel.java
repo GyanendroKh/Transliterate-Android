@@ -8,12 +8,12 @@ import com.meiteimayek.transliterate.repository.HomeRepository;
 
 import io.reactivex.Observable;
 
+import static com.meiteimayek.transliterate.Utils.TAG;
+
 public class HomeViewModel extends ViewModel {
   
-  private static final String TAG = "DebugLog";
-  
+  private final HomeRepository mRepo;
   private boolean mMode;
-  private HomeRepository mRepo;
   private String mLastString;
   
   public HomeViewModel() {

@@ -1,7 +1,5 @@
 package com.meiteimayek.transliterate;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -18,6 +16,9 @@ import com.google.android.material.navigation.NavigationView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.meiteimayek.transliterate.Utils.openStorePage;
+import static com.meiteimayek.transliterate.Utils.shareApp;
 
 public class MainActivity extends AppCompatActivity {
   
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     initViews();
   }
   
+  @SuppressWarnings("SameReturnValue")
   private void initViews() {
     setSupportActionBar(mToolbar);
     mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -58,23 +60,14 @@ public class MainActivity extends AppCompatActivity {
     mNavView.getMenu()
       .findItem(R.id.nav_store)
       .setOnMenuItemClickListener(item -> {
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-          Uri.parse(getString(R.string.play_store_detail) + BuildConfig.APPLICATION_ID));
-        startActivity(Intent.createChooser(intent, "Open with..."));
+        openStorePage(this);
         return false;
       });
     
     mNavView.getMenu()
       .findItem(R.id.nav_share)
       .setOnMenuItemClickListener(item -> {
-        Intent share = new Intent(android.content.Intent.ACTION_SEND);
-        share.setType("text/plain");
-        
-        share.putExtra(Intent.EXTRA_SUBJECT, "Check this out!");
-        share.putExtra(Intent.EXTRA_TEXT,
-          getString(R.string.play_store_detail) + BuildConfig.APPLICATION_ID);
-        
-        startActivity(Intent.createChooser(share, "Share link!"));
+        shareApp(this);
         return false;
       });
     

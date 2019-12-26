@@ -17,10 +17,10 @@ import io.reactivex.Observable;
 
 import static com.meiteimayek.transliterate.tf.Utils.argmax;
 
+import static com.meiteimayek.transliterate.Utils.TAG;
+
 @SuppressWarnings("ConstantConditions")
 public class Model {
-  
-  private static final String TAG = "DebugLog";
   
   private static Model mSelf = null;
   
@@ -32,7 +32,7 @@ public class Model {
   private final Encoder mEncoder;
   private final Decoder mDecoder;
   
-  private HashMap<String, String> mCache;
+  private final HashMap<String, String> mCache;
   
   private Model(Config config) {
     mUnits = config.getUnits();

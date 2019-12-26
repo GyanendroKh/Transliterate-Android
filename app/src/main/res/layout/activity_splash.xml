@@ -6,7 +6,8 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="@drawable/md_main_bg"
-  tools:context=".SplashActivity">
+  tools:context=".SplashActivity"
+  tools:ignore="Overdraw">
   
   <androidx.appcompat.widget.AppCompatTextView
     android:id="@+id/splash_title"

@@ -41,6 +41,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.ReplaySubject;
 
+import static com.meiteimayek.transliterate.Utils.TAG;
+
 @SuppressWarnings("ConstantConditions")
 public class HomeFragment extends Fragment {
   
@@ -74,7 +76,6 @@ public class HomeFragment extends Fragment {
   private InterstitialAd mInterAds;
   private Random mRandom;
   private int mTimes = 0;
-  private final String TAG = "DebugLog";
   
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {

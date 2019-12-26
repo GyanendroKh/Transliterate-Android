@@ -11,9 +11,10 @@ import java.io.IOException;
 
 import io.reactivex.Observable;
 
+import static com.meiteimayek.transliterate.Utils.TAG;
+
 public class HomeRepository {
   
-  private static final String TAG = "DebugLog";
   private static HomeRepository mSelf = null;
   private Model mModel;
   
