@@ -93,4 +93,8 @@ Email: khgyanendro77@gmail.com"
   <string name="ad_id">ca-app-pub-3940256099942544~3347511713</string>
   <string name="ad_banner">ca-app-pub-3940256099942544/6300978111</string>
   <string name="ad_inter">ca-app-pub-3940256099942544/1033173712</string>
+  <string name="update_title">Update Available!</string>
+  <string name="update_text">A new version of the app is available.</string>
+  <string name="update">Update</string>
+  <string name="later">Later</string>
 </resources>
