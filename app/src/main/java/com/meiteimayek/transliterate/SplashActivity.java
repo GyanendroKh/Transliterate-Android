@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
   }
   
   private void openAndFinish() {
-    startActivity(new Intent(this, MainActivity.class));
+    startActivity(new Intent(this, TutorialActivity.class));
     finish();
   }
   

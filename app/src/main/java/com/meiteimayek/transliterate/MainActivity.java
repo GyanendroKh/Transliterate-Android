@@ -1,5 +1,6 @@
 package com.meiteimayek.transliterate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -61,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
       .findItem(R.id.nav_store)
       .setOnMenuItemClickListener(item -> {
         openStorePage(this);
+        return false;
+      });
+    
+    mNavView.getMenu()
+      .findItem(R.id.nav_tut)
+      .setOnMenuItemClickListener(item -> {
+        startActivity(new Intent(this, TutorialActivity.class));
         return false;
       });
     

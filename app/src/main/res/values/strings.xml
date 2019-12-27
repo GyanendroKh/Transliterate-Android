@@ -94,7 +94,17 @@ Email: khgyanendro77@gmail.com"
   <string name="update_text">A new version of the app is available.</string>
   <string name="update">Update</string>
   <string name="later">Later</string>
+  <string name="finish">Finish</string>
+  <string name="next">Next</string>
+  <string name="prev">Prev</string>
+  <string name="tut_1_title">Transliterate</string>
+  <string name="tut_1">Click where it says \'Type Here…\' and start typing.\nThe transliterated sentence will be shown below automatically.</string>
+  <string name="tut_2_title">Language</string>
+  <string name="tut_2">The Language shown at the top left is the source language (to transliterate from) and the one that is shown at top right is the target language(to transliterate to).\nClick the button between the two to swap the language.</string>
+  <string name="tut_3_title">Other Stuff</string>
+  <string name="tut_3">Click the \'X\' button on the top right to clear the input.\nClick the button on the bottom right with two files on it to copy the transliterated text.</string>
   <string name="ad_id">ca-app-pub-3940256099942544~3347511713</string>
   <string name="ad_banner">ca-app-pub-3940256099942544/6300978111</string>
   <string name="ad_inter">ca-app-pub-3940256099942544/1033173712</string>
+  <string name="menu_tut">Tutorial</string>
 </resources>
