@@ -20,6 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.meiteimayek.transliterate.Utils.tutorialCompleted;
+
 public class TutorialActivity extends AppCompatActivity {
   
   @BindView(R.id.tut_pager)
@@ -63,7 +65,8 @@ public class TutorialActivity extends AppCompatActivity {
     
     mNextBtn.setOnClickListener(v -> {
       if(mCurrentPos == mList.size() - 1) {
-        startActivity(new Intent(TutorialActivity.this, MainActivity.class));
+        tutorialCompleted(this);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
       }else {
         mPager.setCurrentItem(mCurrentPos + 1, true);

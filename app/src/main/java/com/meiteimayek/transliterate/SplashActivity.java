@@ -17,6 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 import static com.meiteimayek.transliterate.Utils.TAG;
 import static com.meiteimayek.transliterate.Utils.checkVersion;
 import static com.meiteimayek.transliterate.Utils.openStorePage;
+import static com.meiteimayek.transliterate.Utils.shouldShowTutorial;
 
 public class SplashActivity extends AppCompatActivity {
   
@@ -33,7 +34,8 @@ public class SplashActivity extends AppCompatActivity {
   }
   
   private void openAndFinish() {
-    startActivity(new Intent(this, TutorialActivity.class));
+    startActivity(new Intent(this,
+      shouldShowTutorial(this) ? TutorialActivity.class : MainActivity.class));
     finish();
   }
   

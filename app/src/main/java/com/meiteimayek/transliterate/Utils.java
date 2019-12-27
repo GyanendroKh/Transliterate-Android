@@ -2,6 +2,7 @@ package com.meiteimayek.transliterate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
@@ -37,6 +38,16 @@ public class Utils {
       emitter.onNext(false);
       emitter.onComplete();
     })));
+  }
+  
+  public static boolean shouldShowTutorial(Context context) {
+    SharedPreferences app = context.getSharedPreferences("app", Context.MODE_PRIVATE);
+    return !app.contains("showTut");
+  }
+  
+  public static void tutorialCompleted(Context context) {
+    SharedPreferences app = context.getSharedPreferences("app", Context.MODE_PRIVATE);
+    app.edit().putBoolean("showTut", false).apply();
   }
   
   public static void openStorePage(Context context) {
