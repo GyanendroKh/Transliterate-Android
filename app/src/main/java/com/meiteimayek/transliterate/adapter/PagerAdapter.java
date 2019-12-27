@@ -45,7 +45,7 @@ public class PagerAdapter extends RecyclerView.Adapter<PagerAdapter.PagerViewHol
   }
   
   public class PagerViewHolder extends RecyclerView.ViewHolder {
-    final View mRoot;
+    
     @BindView(R.id.step_img)
     AppCompatImageView mImg;
     @BindView(R.id.step_title)
@@ -55,7 +55,6 @@ public class PagerAdapter extends RecyclerView.Adapter<PagerAdapter.PagerViewHol
     
     public PagerViewHolder(@NonNull View itemView) {
       super(itemView);
-      mRoot = itemView;
       ButterKnife.bind(this, itemView);
     }
     

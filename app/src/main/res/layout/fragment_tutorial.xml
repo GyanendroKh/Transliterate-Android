@@ -12,8 +12,8 @@
     
     <androidx.appcompat.widget.AppCompatImageView
       android:id="@+id/step_img"
-      android:layout_width="260dp"
-      android:layout_height="280dp"
+      android:layout_width="@dimen/tut_img_width"
+      android:layout_height="@dimen/tut_img_height"
       android:src="@drawable/tut_1"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -23,12 +23,11 @@
       android:id="@+id/step_title"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="40dp"
-      android:text="@string/transliteration"
-      android:textSize="20sp"
+      android:layout_marginTop="@dimen/tut_img_margin_bot"
+      android:text="@string/tut_1_title"
+      android:textSize="@dimen/title_font"
       android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.497"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/step_img" />
     
@@ -36,11 +35,11 @@
       android:id="@+id/step_desc"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="15dp"
+      android:layout_marginTop="10dp"
       android:paddingStart="15dp"
       android:paddingEnd="15dp"
       android:text="@string/tut_1"
-      android:textSize="18sp"
+      android:textSize="@dimen/subtitle_font"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/step_title" />

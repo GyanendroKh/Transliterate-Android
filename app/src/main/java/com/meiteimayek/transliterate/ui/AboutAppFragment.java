@@ -29,7 +29,7 @@ public class AboutAppFragment extends Fragment {
     ((AdView) root.findViewById(R.id.ad_view)).loadAd(new AdRequest.Builder().build());
     
     Markwon markwon = Markwon.create(getContext());
-    markwon.setMarkdown(root.findViewById(R.id.text_view), getString(R.string.about_app));
+    markwon.setMarkdown(root.findViewById(R.id.about_text), getString(R.string.about_app));
     
     return root;
   }

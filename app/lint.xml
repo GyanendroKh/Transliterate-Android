@@ -2,5 +2,8 @@
 <lint>
   <issue id="IconLocation">
     <ignore path="src/main/res/drawable/md_main_bg.jpg" />
+    <ignore path="src/main/res/drawable/tut_1.png" />
+    <ignore path="src/main/res/drawable/tut_2.png" />
+    <ignore path="src/main/res/drawable/tut_3.png" />
   </issue>
 </lint>

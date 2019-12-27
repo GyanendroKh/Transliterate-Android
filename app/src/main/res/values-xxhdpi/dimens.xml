@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="trans_title_pad_horizontal">20dp</dimen>
+  
+  <dimen name="card_pad_vertical">15dp</dimen>
+  <dimen name="card_pad_horizontal">20dp</dimen>
+  
+  <dimen name="target_card_margin">10dp</dimen>
+  
+  <dimen name="tut_img_width">280dp</dimen>
+  <dimen name="tut_img_height">300dp</dimen>
+  <dimen name="tut_img_margin_bot">40dp</dimen>
+  
+  <dimen name="developed_by_font_size">18sp</dimen>
+  
+  <dimen name="img_pad">10dp</dimen>
+  
+  <dimen name="title_font">20sp</dimen>
+  <dimen name="subtitle_font">18sp</dimen>
+</resources>

@@ -16,7 +16,7 @@
     android:fontFamily="@font/amarante"
     android:text="@string/app_name"
     android:textAlignment="center"
-    android:textSize="25sp"
+    android:textSize="20sp"
     android:textStyle="bold"
     app:layout_constraintBottom_toTopOf="@+id/frameLayout"
     app:layout_constraintEnd_toEndOf="parent"

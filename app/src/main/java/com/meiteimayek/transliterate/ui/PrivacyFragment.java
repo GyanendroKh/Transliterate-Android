@@ -22,7 +22,7 @@ public class PrivacyFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_privacy, container, false);
     
     Markwon markwon = Markwon.create(getContext());
-    markwon.setMarkdown(view.findViewById(R.id.text_view), getString(R.string.privacy_policy_content));
+    markwon.setMarkdown(view.findViewById(R.id.privacy_text), getString(R.string.privacy_policy_content));
     
     return view;
   }

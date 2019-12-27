@@ -19,17 +19,17 @@
       <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/trans_title_margin"
-        android:paddingTop="5dp"
-        android:paddingEnd="@dimen/trans_title_margin"
-        android:paddingBottom="5dp">
+        android:paddingStart="@dimen/trans_title_pad_horizontal"
+        android:paddingTop="@dimen/trans_title_pad_vertical"
+        android:paddingEnd="@dimen/trans_title_pad_horizontal"
+        android:paddingBottom="@dimen/trans_title_pad_vertical">
         
         <com.google.android.material.textview.MaterialTextView
           android:id="@+id/trans_source"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="@string/lang_eng"
-          android:textSize="20sp"
+          android:textSize="@dimen/title_font"
           app:fontFamily="@font/amarante"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
           android:layout_centerHorizontal="true"
           android:layout_centerVertical="true"
           android:background="?attr/selectableItemBackground"
-          android:padding="10dp"
+          android:padding="@dimen/img_pad"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
           android:layout_alignParentEnd="true"
           android:layout_centerVertical="true"
           android:text="@string/lang_mm"
-          android:textSize="20sp"
+          android:textSize="@dimen/title_font"
           app:fontFamily="@font/amarante"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
@@ -67,10 +67,10 @@
       <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPaddingBottom="10dp"
-        app:contentPaddingLeft="20dp"
-        app:contentPaddingRight="20dp"
-        app:contentPaddingTop="10dp">
+        app:contentPaddingBottom="@dimen/card_pad_vertical"
+        app:contentPaddingLeft="@dimen/card_pad_horizontal"
+        app:contentPaddingRight="@dimen/card_pad_horizontal"
+        app:contentPaddingTop="@dimen/card_pad_vertical">
         
         <androidx.constraintlayout.widget.ConstraintLayout
           android:layout_width="match_parent"
@@ -83,7 +83,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/lang_eng"
-            android:textSize="18sp"
+            android:textSize="@dimen/subtitle_font"
             android:textStyle="bold"
             app:fontFamily="@font/amarante"
             app:layout_constraintBottom_toTopOf="@+id/trans_source_text"
@@ -97,7 +97,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="?attr/selectableItemBackground"
-            android:padding="10dp"
+            android:padding="@dimen/img_pad"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_clear" />
@@ -111,10 +111,9 @@
             android:fontFamily="serif"
             android:hint="@string/type_here"
             android:inputType="textMultiLine"
-            android:maxLines="12"
+            android:maxLines="10"
             android:minLines="4"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:textSize="@dimen/subtitle_font"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -127,11 +126,11 @@
       <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:contentPaddingBottom="10dp"
-        app:contentPaddingLeft="20dp"
-        app:contentPaddingRight="20dp"
-        app:contentPaddingTop="10dp">
+        android:layout_margin="@dimen/target_card_margin"
+        app:contentPaddingBottom="@dimen/card_pad_vertical"
+        app:contentPaddingLeft="@dimen/card_pad_horizontal"
+        app:contentPaddingRight="@dimen/card_pad_horizontal"
+        app:contentPaddingTop="@dimen/card_pad_vertical">
         
         <androidx.constraintlayout.widget.ConstraintLayout
           android:layout_width="match_parent"
@@ -144,7 +143,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@string/lang_mm"
-            android:textSize="18sp"
+            android:textSize="@dimen/subtitle_font"
             android:textStyle="bold"
             app:fontFamily="@font/amarante"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,9 +158,8 @@
             android:gravity="center_vertical"
             android:inputType="textMultiLine"
             android:minLines="4"
-            android:padding="5dp"
             android:text="@string/transliteration"
-            android:textSize="20sp"
+            android:textSize="@dimen/subtitle_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trans_target_title" />
@@ -184,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackground"
-            android:padding="10dp"
+            android:padding="@dimen/img_pad"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_content_copy" />
