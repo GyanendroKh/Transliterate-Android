@@ -33,8 +33,7 @@ public class Utils {
             return;
           }
         }
-      }
-      Log.w(TAG, "checkVersion: Error getting documents.", task.getException());
+      }else Log.w(TAG, "checkVersion: Error getting documents.", task.getException());
       emitter.onNext(false);
       emitter.onComplete();
     })));
